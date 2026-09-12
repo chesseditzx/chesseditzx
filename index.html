@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chesseditzx | Official Chess Mug</title>
+    <title>Chesseditzx | Official Store</title>
     <style>
         * {
             margin: 0;
@@ -18,8 +18,47 @@
             flex-direction: column;
             min-height: 100vh;
             align-items: center;
-            justify-content: center;
             padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        header h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background-color: #2a2a2a;
+            color: #ccc;
+            border: 1px solid #444;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        .shop-container {
+            max-width: 950px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
         }
         .container {
             max-width: 950px;
@@ -105,23 +144,35 @@
             line-height: 1.6;
             margin-bottom: 20px;
         }
-        .order-title {
-            font-size: 14px;
+        
+        /* გლობალური საკონტაქტო პანელი საიტის ბოლოში */
+        .global-contact {
+            max-width: 950px;
+            width: 100%;
+            background: #1e1e1e;
+            border: 1px solid #2c2c2c;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .global-contact .order-title {
+            font-size: 15px;
             color: #aaa;
-            margin-bottom: 10px;
-            font-weight: 500;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
         .contact-buttons {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .buy-btn {
-            flex: 1;
-            min-width: 100px;
+            min-width: 120px;
             display: inline-block;
             color: white;
-            padding: 12px 10px;
+            padding: 12px 20px;
             font-size: 13px;
             font-weight: bold;
             text-decoration: none;
@@ -149,27 +200,83 @@
 </head>
 <body>
 
-    <div class="container">
-        <!-- სურათების გალერეა -->
-        <div class="product-gallery">
-            <img id="expandedImg" src="mug1.png" alt="Chess Mug Main" class="main-image">
-            <div class="thumbnails">
-                <img src="mug1.png" alt="View 1" onclick="changeImage(this)">
-                <img src="mug2.png" alt="View 2" onclick="changeImage(this)">
-                <img src="mug3.png" alt="View 3" onclick="changeImage(this)">
+    <header>
+        <h2>Chesseditzx Store</h2>
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">All Products</button>
+            <button class="filter-btn" onclick="filterProducts('mugs', this)">Mugs</button>
+            <button class="filter-btn" onclick="filterProducts('tshirts', this)">T-Shirts</button>
+            <button class="filter-btn" onclick="filterProducts('bags', this)">Bags</button>
+        </div>
+    </header>
+
+    <div class="shop-container">
+        <!-- პროდუქტი 1: ჭიქა -->
+        <div class="container product-card" data-category="mugs">
+            <div class="product-gallery">
+                <img id="expandedImg1" src="mug1.png" alt="Chess Mug Main" class="main-image">
+                <div class="thumbnails">
+                    <img src="mug1.png" alt="View 1" onclick="changeImage('expandedImg1', this)">
+                    <img src="mug2.png" alt="View 2" onclick="changeImage('expandedImg1', this)">
+                    <img src="mug3.png" alt="View 3" onclick="changeImage('expandedImg1', this)">
+                </div>
+            </div>
+
+            <div class="product-details">
+                <div class="brand">Chesseditzx Official</div>
+                <h1>"I Calculated 10 Moves Ahead" Mug</h1>
+                <div class="price">$14.99</div>
+                <p class="description">
+                    The ultimate mug for chess players who spend 10 minutes calculating a brilliant line, just to get checkmated instantly. High quality ceramic, microwave and dishwasher safe.
+                </p>
             </div>
         </div>
 
-        <!-- პროდუქტის აღწერა -->
-        <div class="product-details">
-            <div class="brand">Chesseditzx Official</div>
-            <h1>"I Calculated 10 Moves Ahead" Mug</h1>
-            <div class="price">$14.99</div>
-            <p class="description">
-                The ultimate mug for chess players who spend 10 minutes calculating a brilliant line, just to get checkmated instantly. High quality ceramic, microwave and dishwasher safe.
-            </p>
-            
-            <div class="order-title">Contact us to purchase or order:</div>
+        <!-- პროდუქტი 2: მაისური (Drake Meme) -->
+        <div class="container product-card" data-category="tshirts">
+            <div class="product-gallery">
+                <img id="expandedImg2" src="img_4.jpg.png" alt="Chess T-Shirt Main" class="main-image">
+                <div class="thumbnails">
+                    <img src="img_4.jpg.png" alt="View 1" onclick="changeImage('expandedImg2', this)">
+                    <img src="img_5.jpg.png" alt="View 2" onclick="changeImage('expandedImg2', this)">
+                    <img src="img_6.jpg.png" alt="View 3" onclick="changeImage('expandedImg2', this)">
+                </div>
+            </div>
+
+            <div class="product-details">
+                <div class="brand">Chesseditzx Official</div>
+                <h1>"Calculating vs Blundering" Meme T-Shirt</h1>
+                <div class="price">$22.99</div>
+                <p class="description">
+                    Unisex softstyle T-shirt featuring the ultimate chess dilemma: calculating complex lines for 15 minutes versus blundering a piece on move 4. Super comfortable and durable.
+                </p>
+            </div>
+        </div>
+
+        <!-- პროდუქტი 3: ჩანთა (Sniper Bishop Tote Bag) -->
+        <div class="container product-card" data-category="bags">
+            <div class="product-gallery">
+                <img id="expandedImg3" src="bag1.png" alt="Sniper Bishop Tote Bag Main" class="main-image">
+                <div class="thumbnails">
+                    <img src="bag1.png" alt="View 1" onclick="changeImage('expandedImg3', this)">
+                    <img src="bag2.png" alt="View 2" onclick="changeImage('expandedImg3', this)">
+                    <img src="bag3.png" alt="View 3" onclick="changeImage('expandedImg3', this)">
+                </div>
+            </div>
+
+            <div class="product-details">
+                <div class="brand">Chesseditzx Official</div>
+                <h1>"Sniper Bishop" Cotton Canvas Tote Bag</h1>
+                <div class="price">$21.99</div>
+                <p class="description">
+                    Professional diagonal assailant. Carry your chess board, books, or everyday essentials in style with this durable 100% cotton canvas tote bag. You didn't see the diagonal coming!
+                </p>
+            </div>
+        </div>
+
+        <!-- გლობალური შეკვეთის და საკონტაქტო პანელი -->
+        <div class="global-contact">
+            <div class="order-title">Interested in any item? Contact us to purchase or order:</div>
             <div class="contact-buttons">
                 <a href="https://wa.me/995544444105" class="buy-btn whatsapp" target="_blank">WhatsApp</a>
                 <a href="https://www.instagram.com/luka.khvedelidze.10/" class="buy-btn instagram" target="_blank">Instagram</a>
@@ -184,9 +291,24 @@
     </footer>
 
     <script>
-        function changeImage(element) {
-            var mainImage = document.getElementById("expandedImg");
+        function changeImage(imgId, element) {
+            var mainImage = document.getElementById(imgId);
             mainImage.src = element.src;
+        }
+
+        function filterProducts(category, button) {
+            var buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            var cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
     </script>
 
