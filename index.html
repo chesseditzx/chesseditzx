@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chesseditzx | Official Chess Mug</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: #1e1e1e;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+            border: 1px solid #2c2c2c;
+        }
+        .product-gallery {
+            flex: 1;
+            min-width: 320px;
+            background: #181818;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-image {
+            width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: #222;
+            padding: 10px;
+            border: 1px solid #333;
+        }
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .thumbnails img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid #444;
+            transition: all 0.2s ease;
+            background: #222;
+        }
+        .thumbnails img:hover {
+            border-color: #4CAF50;
+            transform: scale(1.05);
+        }
+        .product-details {
+            flex: 1;
+            min-width: 320px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .brand {
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        h1 {
+            font-size: 26px;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .price {
+            font-size: 24px;
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        p.description {
+            font-size: 15px;
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .order-title {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .contact-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .buy-btn {
+            flex: 1;
+            min-width: 100px;
+            display: inline-block;
+            color: white;
+            padding: 12px 10px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .buy-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .whatsapp { background-color: #25D366; }
+        .instagram { background-color: #E1306C; }
+        .facebook { background-color: #1877F2; }
+        .youtube { background-color: #FF0000; }
+
+        footer {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- სურათების გალერეა -->
+        <div class="product-gallery">
+            <img id="expandedImg" src="mug1.png" alt="Chess Mug Main" class="main-image">
+            <div class="thumbnails">
+                <img src="mug1.png" alt="View 1" onclick="changeImage(this)">
+                <img src="mug2.png" alt="View 2" onclick="changeImage(this)">
+                <img src="mug3.png" alt="View 3" onclick="changeImage(this)">
+            </div>
+        </div>
+
+        <!-- პროდუქტის აღწერა -->
+        <div class="product-details">
+            <div class="brand">Chesseditzx Official</div>
+            <h1>"I Calculated 10 Moves Ahead" Mug</h1>
+            <div class="price">$14.99</div>
+            <p class="description">
+                The ultimate mug for chess players who spend 10 minutes calculating a brilliant line, just to get checkmated instantly. High quality ceramic, microwave and dishwasher safe.
+            </p>
+            
+            <div class="order-title">Contact us to purchase or order:</div>
+            <div class="contact-buttons">
+                <a href="https://wa.me/995544444105" class="buy-btn whatsapp" target="_blank">WhatsApp</a>
+                <a href="https://www.instagram.com/luka.khvedelidze.10/" class="buy-btn instagram" target="_blank">Instagram</a>
+                <a href="https://www.facebook.com/luka.khvedelidze.10" class="buy-btn facebook" target="_blank">Facebook</a>
+                <a href="https://youtube.com/@chesseditzx-s3d?si=yoXuzIn6R0ssXW_h" class="buy-btn youtube" target="_blank">YouTube</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Chesseditzx. All rights reserved.
+    </footer>
+
+    <script>
+        function changeImage(element) {
+            var mainImage = document.getElementById("expandedImg");
+            mainImage.src = element.src;
+        }
+    </script>
+
+</body>
+</html>
