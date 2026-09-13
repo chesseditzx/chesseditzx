@@ -23,18 +23,47 @@
         header {
             text-align: center;
             margin-bottom: 25px;
+            width: 100%;
+            max-width: 950px;
         }
         header h2 {
             color: #fff;
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 15px;
         }
-        .filter-buttons {
+        /* მთავარი ძირითადი ნავიგაცია (Meme Shop / Grandmaster Quotes) */
+        .main-nav {
             display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav-btn {
+            background-color: #1e1e1e;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 10px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        /* ფილტრები (ორივე გვერდისთვის) */
+        .filter-buttons {
+            display: none;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
+        }
+        .filter-buttons.show {
+            display: flex;
         }
         .filter-btn {
             background-color: #2a2a2a;
@@ -52,8 +81,21 @@
             color: white;
             border-color: #4CAF50;
         }
-        .shop-container {
+
+        /* გვერდების კონტეინერები (გადასართველად) */
+        .page-section {
+            display: none;
+            width: 100%;
             max-width: 950px;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+        .page-section.active {
+            display: flex;
+        }
+
+        .shop-container {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -61,7 +103,6 @@
             align-items: center;
         }
         .container {
-            max-width: 950px;
             width: 100%;
             background: #1e1e1e;
             border-radius: 16px;
@@ -144,6 +185,30 @@
             line-height: 1.6;
             margin-bottom: 20px;
         }
+
+        /* ციტატების გვერდის სტილი */
+        .quotes-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+        .quote-box {
+            font-style: italic;
+            font-size: 18px;
+            color: #ddd;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .quote-author {
+            font-size: 16px;
+            color: #4CAF50;
+            font-weight: bold;
+            font-style: normal;
+        }
         
         /* გლობალური საკონტაქტო პანელი საიტის ბოლოში */
         .global-contact {
@@ -154,7 +219,7 @@
             border-radius: 16px;
             padding: 25px;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .global-contact .order-title {
             font-size: 15px;
@@ -202,87 +267,239 @@
 
     <header>
         <h2>Chesseditzx Store</h2>
-        <div class="filter-buttons">
-            <button class="filter-btn active" onclick="filterProducts('all', this)">All Products</button>
-            <button class="filter-btn" onclick="filterProducts('mugs', this)">Mugs</button>
-            <button class="filter-btn" onclick="filterProducts('tshirts', this)">T-Shirts</button>
-            <button class="filter-btn" onclick="filterProducts('bags', this)">Bags</button>
+        <!-- მთავარი ღილაკები: Meme Shop და Chess Quotes -->
+        <div class="main-nav">
+            <button class="nav-btn active" id="btnMemeShop" onclick="switchPage('memeShop')">Meme Shop</button>
+            <button class="nav-btn" id="btnQuotesPage" onclick="switchPage('quotesPage')">Grandmaster Quotes</button>
+        </div>
+
+        <!-- ფილტრები Meme Shop-ისთვის -->
+        <div class="filter-buttons show" id="memeFilters">
+            <button class="filter-btn active" onclick="filterProducts('memeShopSection', 'all', this)">All Products</button>
+            <button class="filter-btn" onclick="filterProducts('memeShopSection', 'mugs', this)">Mugs</button>
+            <button class="filter-btn" onclick="filterProducts('memeShopSection', 'tshirts', this)">T-Shirts</button>
+            <button class="filter-btn" onclick="filterProducts('memeShopSection', 'bags', this)">Bags</button>
+        </div>
+
+        <!-- ფილტრები Grandmaster Quotes-ისთვის -->
+        <div class="filter-buttons" id="quoteFilters">
+            <button class="filter-btn active" onclick="filterProducts('quotesPageSection', 'all', this)">All Quotes</button>
+            <button class="filter-btn" onclick="filterProducts('quotesPageSection', 'mugs', this)">Mugs</button>
+            <button class="filter-btn" onclick="filterProducts('quotesPageSection', 'tshirts', this)">T-Shirts</button>
+            <button class="filter-btn" onclick="filterProducts('quotesPageSection', 'bags', this)">Bags</button>
         </div>
     </header>
 
-    <div class="shop-container">
-        <!-- პროდუქტი 1: ჭიქა -->
-        <div class="container product-card" data-category="mugs">
-            <div class="product-gallery">
-                <img id="expandedImg1" src="mug1.png" alt="Chess Mug Main" class="main-image">
-                <div class="thumbnails">
-                    <img src="mug1.png" alt="View 1" onclick="changeImage('expandedImg1', this)">
-                    <img src="mug2.png" alt="View 2" onclick="changeImage('expandedImg1', this)">
-                    <img src="mug3.png" alt="View 3" onclick="changeImage('expandedImg1', this)">
+    <!-- MEME SHOP გვერდი -->
+    <div class="page-section active" id="memeShopSection">
+        <div class="shop-container">
+            <!-- პროდუქტი 1: ჭიქა -->
+            <div class="container product-card" data-category="mugs">
+                <div class="product-gallery">
+                    <img id="expandedImg1" src="mug1.png" alt="Chess Mug Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="mug1.png" alt="View 1" onclick="changeImage('expandedImg1', this)">
+                        <img src="mug2.png" alt="View 2" onclick="changeImage('expandedImg1', this)">
+                        <img src="mug3.png" alt="View 3" onclick="changeImage('expandedImg1', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chesseditzx Official</div>
+                    <h1>"I Calculated 10 Moves Ahead" Mug</h1>
+                    <div class="price">$14.99</div>
+                    <p class="description">
+                        The ultimate mug for chess players who spend 10 minutes calculating a brilliant line, just to get checkmated instantly. High quality ceramic, microwave and dishwasher safe.
+                    </p>
                 </div>
             </div>
 
-            <div class="product-details">
-                <div class="brand">Chesseditzx Official</div>
-                <h1>"I Calculated 10 Moves Ahead" Mug</h1>
-                <div class="price">$14.99</div>
-                <p class="description">
-                    The ultimate mug for chess players who spend 10 minutes calculating a brilliant line, just to get checkmated instantly. High quality ceramic, microwave and dishwasher safe.
-                </p>
-            </div>
-        </div>
-
-        <!-- პროდუქტი 2: მაისური (Drake Meme) -->
-        <div class="container product-card" data-category="tshirts">
-            <div class="product-gallery">
-                <img id="expandedImg2" src="img_4.jpg.png" alt="Chess T-Shirt Main" class="main-image">
-                <div class="thumbnails">
-                    <img src="img_4.jpg.png" alt="View 1" onclick="changeImage('expandedImg2', this)">
-                    <img src="img_5.jpg.png" alt="View 2" onclick="changeImage('expandedImg2', this)">
-                    <img src="img_6.jpg.png" alt="View 3" onclick="changeImage('expandedImg2', this)">
+            <!-- პროდუქტი 2: მაისური (Drake Meme) -->
+            <div class="container product-card" data-category="tshirts">
+                <div class="product-gallery">
+                    <img id="expandedImg2" src="img_4.jpg.png" alt="Chess T-Shirt Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="img_4.jpg.png" alt="View 1" onclick="changeImage('expandedImg2', this)">
+                        <img src="img_5.jpg.png" alt="View 2" onclick="changeImage('expandedImg2', this)">
+                        <img src="img_6.jpg.png" alt="View 3" onclick="changeImage('expandedImg2', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chesseditzx Official</div>
+                    <h1>"Calculating vs Blundering" Meme T-Shirt</h1>
+                    <div class="price">$22.99</div>
+                    <p class="description">
+                        Unisex softstyle T-shirt featuring the ultimate chess dilemma: calculating complex lines for 15 minutes versus blundering a piece on move 4. Super comfortable and durable.
+                    </p>
                 </div>
             </div>
 
-            <div class="product-details">
-                <div class="brand">Chesseditzx Official</div>
-                <h1>"Calculating vs Blundering" Meme T-Shirt</h1>
-                <div class="price">$22.99</div>
-                <p class="description">
-                    Unisex softstyle T-shirt featuring the ultimate chess dilemma: calculating complex lines for 15 minutes versus blundering a piece on move 4. Super comfortable and durable.
-                </p>
-            </div>
-        </div>
-
-        <!-- პროდუქტი 3: ჩანთა (Sniper Bishop Tote Bag) -->
-        <div class="container product-card" data-category="bags">
-            <div class="product-gallery">
-                <img id="expandedImg3" src="bag1.png" alt="Sniper Bishop Tote Bag Main" class="main-image">
-                <div class="thumbnails">
-                    <img src="bag1.png" alt="View 1" onclick="changeImage('expandedImg3', this)">
-                    <img src="bag2.png" alt="View 2" onclick="changeImage('expandedImg3', this)">
-                    <img src="bag3.png" alt="View 3" onclick="changeImage('expandedImg3', this)">
+            <!-- პროდუქტი 3: ჩანთა (Sniper Bishop Tote Bag) -->
+            <div class="container product-card" data-category="bags">
+                <div class="product-gallery">
+                    <img id="expandedImg3" src="bag1.png" alt="Sniper Bishop Tote Bag Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="bag1.png" alt="View 1" onclick="changeImage('expandedImg3', this)">
+                        <img src="bag2.png" alt="View 2" onclick="changeImage('expandedImg3', this)">
+                        <img src="bag3.png" alt="View 3" onclick="changeImage('expandedImg3', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chesseditzx Official</div>
+                    <h1>"Sniper Bishop" Cotton Canvas Tote Bag</h1>
+                    <div class="price">$21.99</div>
+                    <p class="description">
+                        Professional diagonal assailant. Carry your chess board, books, or everyday essentials in style with this durable 100% cotton canvas tote bag. You didn't see the diagonal coming!
+                    </p>
                 </div>
             </div>
 
-            <div class="product-details">
-                <div class="brand">Chesseditzx Official</div>
-                <h1>"Sniper Bishop" Cotton Canvas Tote Bag</h1>
-                <div class="price">$21.99</div>
-                <p class="description">
-                    Professional diagonal assailant. Carry your chess board, books, or everyday essentials in style with this durable 100% cotton canvas tote bag. You didn't see the diagonal coming!
-                </p>
+            <!-- პროდუქტი 4: ჭიქების კოლექცია -->
+            <div class="container product-card" data-category="mugs">
+                <div class="product-gallery">
+                    <img id="expandedImg4" src="Mug 4.png" alt="Chess Meme Mug Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="Mug 4.png" alt="View 1" onclick="changeImage('expandedImg4', this)">
+                        <img src="mug 5.png" alt="View 2" onclick="changeImage('expandedImg4', this)">
+                        <img src="mug 6.png" alt="View 3" onclick="changeImage('expandedImg4', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chesseditzx Official</div>
+                    <h1>Chess Meme Ceramic Mug Collection</h1>
+                    <div class="price">$16.99</div>
+                    <p class="description">
+                        High-quality ceramic chess meme mug featuring hilarious in-game moments. Microwave and dishwasher safe, perfect for your morning coffee or tea while blundering your queen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- პროდუქტი 5: ახალი მაისური -->
+            <div class="container product-card" data-category="tshirts">
+                <div class="product-gallery">
+                    <img id="expandedImg5" src="tshirt_chess_1.png" alt="5 Minutes Thinking T-Shirt Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="tshirt_chess_1.png" alt="View 1" onclick="changeImage('expandedImg5', this)">
+                        <img src="tshirt_chess_2.png" alt="View 2" onclick="changeImage('expandedImg5', this)">
+                        <img src="tshirt_chess_3.png" alt="View 3" onclick="changeImage('expandedImg5', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chesseditzx Official</div>
+                    <h1>"5 Minutes of Deep Calculation for a3" Meme T-Shirt</h1>
+                    <div class="price">$24.99</div>
+                    <p class="description">
+                        When your opponent spends 5 straight minutes deep in thought, making you believe they're calculating a grandmaster-level sacrifice — only to casually play a3. Pure chess trauma on a soft cotton tee.
+                    </p>
+                </div>
+            </div>
+
+            <!-- პროდუქტი 6: ახალი ჩანთა -->
+            <div class="container product-card" data-category="bags">
+                <div class="product-gallery">
+                    <img id="expandedImg6" src="chess-bag.png" alt="Chess Opening Trap Bag Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="chess-bag.png" alt="View 1" onclick="changeImage('expandedImg6', this)">
+                        <img src="chess-bag2.png" alt="View 2" onclick="changeImage('expandedImg6', this)">
+                        <img src="chess-bag3.png" alt="View 3" onclick="changeImage('expandedImg6', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chesseditzx Official</div>
+                    <h1>"I Never Fall For Opening Traps" Meme Bag</h1>
+                    <div class="price">$23.99</div>
+                    <p class="description">
+                        For the chess player who claims they never fall for opening traps — right before walking straight into the exact same trap for the 7th time. Durable and spacious everyday bag.
+                    </p>
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- გლობალური შეკვეთის და საკონტაქტო პანელი -->
-        <div class="global-contact">
-            <div class="order-title">Interested in any item? Contact us to purchase or order:</div>
-            <div class="contact-buttons">
-                <a href="https://wa.me/995544444105" class="buy-btn whatsapp" target="_blank">WhatsApp</a>
-                <a href="https://www.instagram.com/luka.khvedelidze.10/" class="buy-btn instagram" target="_blank">Instagram</a>
-                <a href="https://www.facebook.com/luka.khvedelidze.10" class="buy-btn facebook" target="_blank">Facebook</a>
-                <a href="https://youtube.com/@chesseditzx-s3d?si=yoXuzIn6R0ssXW_h" class="buy-btn youtube" target="_blank">YouTube</a>
+    <!-- GRANDMASTER QUOTES გვერდი -->
+    <div class="page-section" id="quotesPageSection">
+        <div class="quotes-section">
+            <!-- კასპაროვის ციტატა (Mugs კატეგორია) -->
+            <div class="container product-card" data-category="mugs">
+                <div class="product-gallery" style="flex: 1;">
+                    <img id="expandedImgKasparov" src="mug 7.png" alt="Garry Kasparov Quote Mug" class="main-image">
+                    <div class="thumbnails">
+                        <img src="mug 7.png" alt="View 1" onclick="changeImage('expandedImgKasparov', this)">
+                        <img src="mug 8.png" alt="View 2" onclick="changeImage('expandedImgKasparov', this)">
+                        <img src="mug 9.png" alt="View 3" onclick="changeImage('expandedImgKasparov', this)">
+                    </div>
+                </div>
+                <div class="product-details" style="flex: 1;">
+                    <div class="brand">Chess Wisdom Collection</div>
+                    <h1>Garry Kasparov Quote Ceramic Mug</h1>
+                    <div class="price">$20.99</div>
+                    <div class="quote-box">
+                        <span id="quoteText">"Chess is a miniature of life. To get the best out of it, you have to fall in love with it."</span>
+                        <span class="quote-author" id="quoteAuthor">— Garry Kasparov</span>
+                    </div>
+                    <p class="description">
+                        Exclusive collectible mug featuring Garry Kasparov’s legendary quote and artwork. Inspire your morning routine or chess study sessions. Available for purchase now!
+                    </p>
+                </div>
             </div>
+
+            <!-- მიხეილ ტალის ციტატა (T-Shirts კატეგორია) -->
+            <div class="container product-card" data-category="tshirts">
+                <div class="product-gallery">
+                    <img id="expandedImgTal" src="tshirt1.png" alt="Mikhail Tal Quote T-Shirt" class="main-image">
+                    <div class="thumbnails">
+                        <img src="tshirt1.png" alt="View 1" onclick="changeImage('expandedImgTal', this)">
+                        <img src="tshirt2.png" alt="View 2" onclick="changeImage('expandedImgTal', this)">
+                        <img src="tshirt3.png" alt="View 3" onclick="changeImage('expandedImgTal', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chess Wisdom Collection</div>
+                    <h1>"There are two types of sacrifices: correct ones, and mine." T-Shirt</h1>
+                    <div class="price">$25.99</div>
+                    <div class="quote-box" style="margin-bottom: 12px;">
+                        <span id="quoteTextTal">"There are two types of sacrifices: correct ones, and mine."</span>
+                        <span class="quote-author" id="quoteAuthorTal">— Mikhail Tal</span>
+                    </div>
+                    <p class="description">
+                        Iconic quote by the legendary Grandmaster Mikhail Tal. Premium soft-cotton t-shirt for true chess attackers and sacrifice enthusiasts.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ბობი ფიშერის ციტატა / ჩანთა (Bags კატეგორია) -->
+            <div class="container product-card" data-category="bags">
+                <div class="product-gallery">
+                    <img id="expandedImgBagQuote" src="bag4.png" alt="Bobby Fischer Quote Bag Main" class="main-image">
+                    <div class="thumbnails">
+                        <img src="bag4.png" alt="View 1" onclick="changeImage('expandedImgBagQuote', this)">
+                        <img src="bag5.png" alt="View 2" onclick="changeImage('expandedImgBagQuote', this)">
+                        <img src="bag6.png" alt="View 3" onclick="changeImage('expandedImgBagQuote', this)">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="brand">Chess Wisdom Collection</div>
+                    <h1>Bobby Fischer Quote Cotton Canvas Tote Bag</h1>
+                    <div class="price">$23.99</div>
+                    <div class="quote-box" style="margin-bottom: 12px;">
+                        <span id="quoteTextBag">"I don't believe in psychology. I believe in good moves."</span>
+                        <span class="quote-author" id="quoteAuthorBag">— Bobby Fischer</span>
+                    </div>
+                    <p class="description">
+                        Spacious, durable canvas tote bag featuring an iconic Bobby Fischer quote. Perfect for carrying your books, gear, and daily essentials with chess style.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- გლობალური შეკვეთის და საკონტაქტო პანელი -->
+    <div class="global-contact">
+        <div class="order-title">Interested in any item? Contact us to purchase or order:</div>
+        <div class="contact-buttons">
+            <a href="https://wa.me/995544444105" class="buy-btn whatsapp" target="_blank">WhatsApp</a>
+            <a href="https://www.instagram.com/luka.khvedelidze.10/" class="buy-btn instagram" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/luka.khvedelidze.10" class="buy-btn facebook" target="_blank">Facebook</a>
+            <a href="https://youtube.com/@chesseditzx-s3d?si=yoXuzIn6R0ssXW_h" class="buy-btn youtube" target="_blank">YouTube</a>
         </div>
     </div>
 
@@ -296,12 +513,46 @@
             mainImage.src = element.src;
         }
 
-        function filterProducts(category, button) {
-            var buttons = document.querySelectorAll('.filter-btn');
+        // გვერდებს შორის გადართვა (Meme Shop <-> Grandmaster Quotes)
+        function switchPage(page) {
+            const btnMemeShop = document.getElementById('btnMemeShop');
+            const btnQuotesPage = document.getElementById('btnQuotesPage');
+            const memeShopSection = document.getElementById('memeShopSection');
+            const quotesPageSection = document.getElementById('quotesPageSection');
+            const memeFilters = document.getElementById('memeFilters');
+            const quoteFilters = document.getElementById('quoteFilters');
+
+            if (page === 'memeShop') {
+                btnMemeShop.classList.add('active');
+                btnQuotesPage.classList.remove('active');
+                memeShopSection.classList.add('active');
+                quotesPageSection.classList.remove('active');
+                memeFilters.classList.add('show');
+                quoteFilters.classList.remove('show');
+                // ფილტრის გასუფთავება გადართვისას
+                filterProducts('memeShopSection', 'all', memeFilters.querySelector('.filter-btn'));
+            } else {
+                btnQuotesPage.classList.add('active');
+                btnMemeShop.classList.remove('active');
+                quotesPageSection.classList.add('active');
+                memeShopSection.classList.remove('active');
+                memeFilters.classList.remove('show');
+                quoteFilters.classList.add('show');
+                // ფილტრის გასუფთავება გადართვისას
+                filterProducts('quotesPageSection', 'all', quoteFilters.querySelector('.filter-btn'));
+            }
+        }
+
+        // პროდუქტების ფილტრაცია კონკრეტულ სექციაში
+        function filterProducts(sectionId, category, button) {
+            var section = document.getElementById(sectionId);
+            var buttons = section.parentElement.querySelectorAll('.filter-btn');
+            
+            // გააქტიურებული ღილაკის მონიშვნა მხოლოდ შესაბამის მენიუში
             buttons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            var cards = document.querySelectorAll('.product-card');
+            var cards = section.querySelectorAll('.product-card');
             cards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
