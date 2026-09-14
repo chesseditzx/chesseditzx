@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chesseditzx | Official Store</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W0XEQX10Q7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-W0XEQX10Q7');
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -22,14 +33,35 @@
         }
         header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             width: 100%;
             max-width: 950px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* ლოგოს ზომა გავზარდეთ შესამჩნევად */
+        .site-logo {
+            width: 115px;
+            height: 115px;
+            object-fit: contain;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid #4CAF50;
+            background: #1e1e1e;
+            padding: 6px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
+        }
+        .site-logo:hover {
+            transform: scale(1.05);
         }
         header h2 {
             color: #fff;
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 34px;
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         /* მთავარი ძირითადი ნავიგაცია (Meme Shop / Grandmaster Quotes) */
         .main-nav {
@@ -37,6 +69,7 @@
             gap: 15px;
             justify-content: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         .nav-btn {
             background-color: #1e1e1e;
@@ -52,6 +85,7 @@
         .nav-btn:hover, .nav-btn.active {
             background-color: #4CAF50;
             border-color: #4CAF50;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
         }
 
         /* ფილტრები (ორივე გვერდისთვის) */
@@ -90,9 +124,15 @@
             flex-direction: column;
             gap: 30px;
             align-items: center;
+            animation: fadeIn 0.4s ease-in-out;
         }
         .page-section.active {
             display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .shop-container {
@@ -111,6 +151,10 @@
             flex-wrap: wrap;
             overflow: hidden;
             border: 1px solid #2c2c2c;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .container:hover {
+            border-color: #444;
         }
         .product-gallery {
             flex: 1;
@@ -131,11 +175,16 @@
             background: #222;
             padding: 10px;
             border: 1px solid #333;
+            transition: transform 0.3s ease;
+        }
+        .main-image:hover {
+            transform: scale(1.02);
         }
         .thumbnails {
             display: flex;
             gap: 10px;
             justify-content: center;
+            flex-wrap: wrap;
         }
         .thumbnails img {
             width: 70px;
@@ -149,7 +198,7 @@
         }
         .thumbnails img:hover {
             border-color: #4CAF50;
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
         .product-details {
             flex: 1;
@@ -202,6 +251,10 @@
             flex-direction: column;
             gap: 15px;
             margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            border-radius: 0 8px 8px 0;
         }
         .quote-author {
             font-size: 16px;
@@ -261,12 +314,32 @@
             color: #666;
             text-align: center;
         }
+
+        /* მობილური მოწყობილობებისთვის ოპტიმიზაცია */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .product-details {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            header h2 {
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
+        <!-- ლოგო გაზრდილი ზომით -->
+        <img src="logo.jpg" alt="Chesseditzx Logo" class="site-logo">
+        
         <h2>Chesseditzx Store</h2>
+        
         <!-- მთავარი ღილაკები: Meme Shop და Chess Quotes -->
         <div class="main-nav">
             <button class="nav-btn active" id="btnMemeShop" onclick="switchPage('memeShop')">Meme Shop</button>
@@ -529,7 +602,6 @@
                 quotesPageSection.classList.remove('active');
                 memeFilters.classList.add('show');
                 quoteFilters.classList.remove('show');
-                // ფილტრის გასუფთავება გადართვისას
                 filterProducts('memeShopSection', 'all', memeFilters.querySelector('.filter-btn'));
             } else {
                 btnQuotesPage.classList.add('active');
@@ -538,7 +610,6 @@
                 memeShopSection.classList.remove('active');
                 memeFilters.classList.remove('show');
                 quoteFilters.classList.add('show');
-                // ფილტრის გასუფთავება გადართვისას
                 filterProducts('quotesPageSection', 'all', quoteFilters.querySelector('.filter-btn'));
             }
         }
@@ -548,7 +619,6 @@
             var section = document.getElementById(sectionId);
             var buttons = section.parentElement.querySelectorAll('.filter-btn');
             
-            // გააქტიურებული ღილაკის მონიშვნა მხოლოდ შესაბამის მენიუში
             buttons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
